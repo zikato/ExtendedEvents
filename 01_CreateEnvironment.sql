@@ -8,7 +8,7 @@ BEGIN
 END 
 
 CREATE DATABASE ExtendedEvents;
-GO 
+GO
 USE ExtendedEvents;
 
 /* Since Login is server scoped, we check for existence */
@@ -81,15 +81,70 @@ RETURN SELECT CAST((@perc/@number) * 100 AS decimal(10,2)) AS val
 
 GO
 
-
 /* Running out of identity */
+DROP TABLE IF EXISTS dbo.LowIdentity
+CREATE TABLE dbo.LowIdentity
+(
+	Id tinyint IDENTITY(25,100) PRIMARY KEY
+)
 
-/* Unique index violation */
+GO
+INSERT INTO dbo.LowIdentity DEFAULT VALUES /* 4th call exceeds 255 */
 
-/* Data type overflow */
+/* Unique constraint violation */
+DROP TABLE IF EXISTS dbo.UniqueConstraint
+CREATE TABLE dbo.UniqueConstraint
+(
+	Id int IDENTITY(1,1) PRIMARY KEY
+	, CountryId tinyint NOT NULL
+	, CategoryId int NOT NULL 
+	, Filler varchar(50) NULL
+    , CONSTRAINT UQ_UniqueConstraint UNIQUE (CountryId, CategoryId)
+)
+GO
 
+INSERT INTO dbo.UniqueConstraint (CountryId, CategoryId, Filler)
+VALUES 
+(
+	  ABS(CHECKSUM(NEWID())) % 5   -- random range 0 - number(excluded)
+	, ABS(CHECKSUM(NEWID())) % 5   
+	, 'Test'
+)
+GO 20
+
+/* String or binary data would be truncated */
+
+INSERT INTO dbo.UniqueConstraint (CountryId, CategoryId, Filler)
+VALUES 
+(20, 20, REPLICATE('A', 40) + REPLICATE('B', 40))
+
+/* Arithmetic overflow */
+INSERT INTO dbo.UniqueConstraint (CountryId, CategoryId, Filler)
+VALUES 
+(250 + 10, 20, 'Data type overflow')
+
+GO
 /* Nested branching error - procedure calls function but only one branch returns error */
+CREATE OR ALTER PROCEDURE dbo.SharedLogic (@trueFalse bit)
+AS
+IF (@trueFalse = 1) /* golden path - no error */
+	SELECT 1 as Pass 
+ELSE
+	SELECT 1/0 as Error /* Generate a divide by 0 error */
+GO
+
+CREATE OR ALTER PROCEDURE dbo.Caller1(@passThrough bit) /* Simulate nesting 1 */
+AS
+EXEC dbo.SharedLogic @trueFalse = @passThrough
+GO
+
+CREATE OR ALTER PROCEDURE dbo.Caller2 (@passThrough bit) /* Simulate nesting  2*/
+AS
+EXEC dbo.SharedLogic @trueFalse = @passThrough
+GO
 
 /* Error inside the trigger */
 
-/* Custom user error */
+/* Custom user error  - extended warranty */
+
+/* Login error - wrong password */

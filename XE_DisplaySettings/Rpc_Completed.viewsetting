@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ViewSetting xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <columnSettings>
+    <ColumnSetting name="timestamp">
+      <width>160</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="database_name">
+      <width>100</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="object_name">
+      <width>209</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="client_app_name">
+      <width>100</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="client_hostname">
+      <width>100</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="duration">
+      <width>100</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="cpu_time">
+      <width>75</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="[Reads]">
+      <width>69</width>
+      <mergedColumns>
+        <string>logical_reads</string>
+        <string>physical_reads</string>
+      </mergedColumns>
+    </ColumnSetting>
+    <ColumnSetting name="writes">
+      <width>59</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="row_count">
+      <width>82</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="[Text]">
+      <width>2430</width>
+      <mergedColumns>
+        <string>statement</string>
+        <string>sql_text</string>
+        <string>batch_text</string>
+      </mergedColumns>
+    </ColumnSetting>
+  </columnSettings>
+</ViewSetting>

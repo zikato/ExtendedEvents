@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ViewSetting xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <columnSettings>
+    <ColumnSetting name="timestamp">
+      <width>160</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="database_id">
+      <width>90</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="client_app_name">
+      <width>113</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="server_principal_name">
+      <width>100</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="client_hostname">
+      <width>109</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="is_intercepted">
+      <width>100</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="error_number">
+      <width>100</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="severity">
+      <width>100</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="state">
+      <width>100</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="message">
+      <width>624</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="sql_text">
+      <width>970</width>
+      <mergedColumns />
+    </ColumnSetting>
+  </columnSettings>
+</ViewSetting>

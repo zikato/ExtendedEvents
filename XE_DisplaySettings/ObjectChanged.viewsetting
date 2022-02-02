@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ViewSetting xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <columnSettings>
+    <ColumnSetting name="name">
+      <width>160</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="timestamp">
+      <width>152</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="client_app_name">
+      <width>424</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="client_hostname">
+      <width>109</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="username">
+      <width>134</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="database_name">
+      <width>100</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="object_id">
+      <width>75</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="object_type">
+      <width>87</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="object_name">
+      <width>391</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="is_system">
+      <width>100</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="[Sql command]">
+      <width>2985</width>
+      <mergedColumns>
+        <string>sql_text</string>
+        <string>statement</string>
+      </mergedColumns>
+    </ColumnSetting>
+  </columnSettings>
+</ViewSetting>
