@@ -1,9 +1,12 @@
-/* Running out of identity - 4th call exceeds the tinyint */
+EXEC dbo.BadReturnType
+GO
+
+/* Running out of identity - 4th call exceeds the tinyint - Error 8115*/
 INSERT INTO dbo.LowIdentity DEFAULT VALUES 
 
 GO
 
-/* Unique constraint violation */
+/* Unique constraint violation - Error 2627 */
 INSERT INTO dbo.UniqueConstraint (CountryId, CategoryId, Filler)
 VALUES 
 (
@@ -14,14 +17,14 @@ VALUES
 
 GO
 
-/* String or binary data would be truncated */
+/* String or binary data would be truncated - Error 2628 */
 INSERT INTO dbo.UniqueConstraint (CountryId, CategoryId, Filler)
 VALUES 
 (20, 20, REPLICATE('A', 40) + REPLICATE('B', 40))
 
 GO
 
-/* Arithmetic overflow */
+/* Arithmetic overflow - Error 220 */
 INSERT INTO dbo.UniqueConstraint (CountryId, CategoryId, Filler)
 VALUES 
 (250 + 10, 20, 'Data type overflow')

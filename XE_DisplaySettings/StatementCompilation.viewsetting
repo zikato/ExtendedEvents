@@ -13,11 +13,11 @@
       <width>216</width>
       <mergedColumns />
     </ColumnSetting>
-    <ColumnSetting name="query_plan_hash_signed">
+    <ColumnSetting name="query_hash_signed">
       <width>100</width>
       <mergedColumns />
     </ColumnSetting>
-    <ColumnSetting name="query_hash_signed">
+    <ColumnSetting name="query_plan_hash_signed">
       <width>100</width>
       <mergedColumns />
     </ColumnSetting>

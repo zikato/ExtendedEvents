@@ -1,5 +1,4 @@
-CREATE EVENT SESSION Error_reported
-ON SERVER
+CREATE EVENT SESSION [Error_reported] ON SERVER
 ADD EVENT sqlserver.error_reported
 (
 	ACTION

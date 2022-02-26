@@ -30,16 +30,23 @@ USAGE:
 #>
 
 # Typo in the procedure name
-ostress -E -Slocalhost -dExtendedEvents -Q"exec dbo.GetColour" -n2 -r5 -q
+ostress -E -S'localhost' -d'ExtendedEvents' -Q"exec dbo.GetColour" -n5 -r5 -q
 
 # Custom raise error
-ostress -E -Slocalhost -dmaster -Q"RAISERROR('We''ve Been Trying To Reach You About Your Car''s Extended Warranty', 11, 1)" -n1 -r3 -q
-
-# Error in the stored procedure
-ostress -E -Slocalhost -dExtendedEvents -i"$pwd\WorkloadSimulation\BadReturnType.sql" -n2 -r5 -q
+ostress -E -S'localhost' -d'master' -Q"RAISERROR('We''ve Been Trying To Reach You About Your Car''s Extended Warranty', 11, 1)" -n1 -r3 -q
 
 # Missing Execute permissions for this procedure
-ostress -U'BillyNoRights' -P'Str0ngPa$$w0rd!' -Slocalhost -dExtendedEvents -Q"exec dbo.LimitedAccess" -n10 -r5 -q
+ostress -S'localhost' -d'ExtendedEvents'-U'BillyNoRights' -P'Str0ngPa$$w0rd!' -Q"EXEC dbo.LimitedAccess" -n10 -r5 -q
 
 # Executing a procedure that tries to grant itself the permissions
-ostress -U'LimitedPermissions' -P'Str0ngPa$$w0rd!' -Slocalhost -dExtendedEvents -Q"exec dbo.BotchedPermissions" -n10 -r5 -q
+ostress -S'localhost' -d'ExtendedEvents' -U'LimitedPermissions' -P'Str0ngPa$$w0rd!' -Q"EXEC dbo.BotchedPermissions" -n10 -r5 -q
+
+# Various errors - more info inside the sql script
+ostress -E -S'localhost' -d'ExtendedEvents' -i"$pwd/WorkloadSimulation/ErrorWorkload.sql" -n4 -r20 -q
+
+# Bad password - Error 18456
+sqlcmd -S'localhost' -U'BillyNoRights' -P'BadPassword' -H "AnotherPc"
+
+# Divide by zero for some executions
+for ($i=1; $i -le 10; $i++) 
+{sqlcmd -S'localhost' -U'LimitedPermissions' -P'Str0ngPa$$w0rd!' -Q "SELECT 10/($i%3)" -H "Calculator"}

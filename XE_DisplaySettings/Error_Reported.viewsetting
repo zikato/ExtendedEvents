@@ -5,10 +5,6 @@
       <width>160</width>
       <mergedColumns />
     </ColumnSetting>
-    <ColumnSetting name="database_id">
-      <width>90</width>
-      <mergedColumns />
-    </ColumnSetting>
     <ColumnSetting name="client_app_name">
       <width>113</width>
       <mergedColumns />
@@ -41,8 +37,16 @@
       <width>624</width>
       <mergedColumns />
     </ColumnSetting>
+    <ColumnSetting name="query_hash_signed">
+      <width>100</width>
+      <mergedColumns />
+    </ColumnSetting>
     <ColumnSetting name="sql_text">
       <width>970</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="tsql_stack">
+      <width>100</width>
       <mergedColumns />
     </ColumnSetting>
   </columnSettings>

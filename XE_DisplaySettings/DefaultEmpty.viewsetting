@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ViewSetting xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <columnSettings>
+    <ColumnSetting name="name">
+      <width>100</width>
+      <mergedColumns />
+    </ColumnSetting>
+    <ColumnSetting name="timestamp">
+      <width>160</width>
+      <mergedColumns />
+    </ColumnSetting>
+  </columnSettings>
+</ViewSetting>

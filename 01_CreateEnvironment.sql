@@ -89,7 +89,6 @@ CREATE TABLE dbo.LowIdentity
 )
 
 GO
-INSERT INTO dbo.LowIdentity DEFAULT VALUES /* 4th call exceeds 255 */
 
 /* Unique constraint violation */
 DROP TABLE IF EXISTS dbo.UniqueConstraint
@@ -103,27 +102,6 @@ CREATE TABLE dbo.UniqueConstraint
 )
 GO
 
-INSERT INTO dbo.UniqueConstraint (CountryId, CategoryId, Filler)
-VALUES 
-(
-	  ABS(CHECKSUM(NEWID())) % 5   -- random range 0 - number(excluded)
-	, ABS(CHECKSUM(NEWID())) % 5   
-	, 'Test'
-)
-GO 20
-
-/* String or binary data would be truncated */
-
-INSERT INTO dbo.UniqueConstraint (CountryId, CategoryId, Filler)
-VALUES 
-(20, 20, REPLICATE('A', 40) + REPLICATE('B', 40))
-
-/* Arithmetic overflow */
-INSERT INTO dbo.UniqueConstraint (CountryId, CategoryId, Filler)
-VALUES 
-(250 + 10, 20, 'Data type overflow')
-
-GO
 /* Nested branching error - procedure calls function but only one branch returns error */
 CREATE OR ALTER PROCEDURE dbo.SharedLogic (@trueFalse bit)
 AS
