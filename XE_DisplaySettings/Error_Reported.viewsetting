@@ -2,51 +2,47 @@
 <ViewSetting xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <columnSettings>
     <ColumnSetting name="timestamp">
-      <width>160</width>
+      <width>133</width>
       <mergedColumns />
     </ColumnSetting>
     <ColumnSetting name="client_app_name">
-      <width>113</width>
+      <width>62</width>
       <mergedColumns />
     </ColumnSetting>
     <ColumnSetting name="server_principal_name">
       <width>100</width>
       <mergedColumns />
     </ColumnSetting>
-    <ColumnSetting name="client_hostname">
-      <width>109</width>
+    <ColumnSetting name="database_name">
+      <width>100</width>
       <mergedColumns />
     </ColumnSetting>
-    <ColumnSetting name="is_intercepted">
-      <width>100</width>
+    <ColumnSetting name="client_hostname">
+      <width>81</width>
       <mergedColumns />
     </ColumnSetting>
     <ColumnSetting name="error_number">
-      <width>100</width>
+      <width>39</width>
       <mergedColumns />
     </ColumnSetting>
     <ColumnSetting name="severity">
-      <width>100</width>
-      <mergedColumns />
-    </ColumnSetting>
-    <ColumnSetting name="state">
-      <width>100</width>
+      <width>31</width>
       <mergedColumns />
     </ColumnSetting>
     <ColumnSetting name="message">
-      <width>624</width>
+      <width>378</width>
       <mergedColumns />
     </ColumnSetting>
     <ColumnSetting name="query_hash_signed">
-      <width>100</width>
+      <width>132</width>
       <mergedColumns />
     </ColumnSetting>
     <ColumnSetting name="sql_text">
-      <width>970</width>
+      <width>407</width>
       <mergedColumns />
     </ColumnSetting>
     <ColumnSetting name="tsql_stack">
-      <width>100</width>
+      <width>235</width>
       <mergedColumns />
     </ColumnSetting>
   </columnSettings>

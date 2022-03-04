@@ -29,24 +29,27 @@ USAGE:
   -b Stop processing if an error is encountered during query execution.
 #>
 
-# Typo in the procedure name
-ostress -E -S'localhost' -d'ExtendedEvents' -Q"exec dbo.GetColour" -n5 -r5 -q
-
-# Custom raise error
-ostress -E -S'localhost' -d'master' -Q"RAISERROR('We''ve Been Trying To Reach You About Your Car''s Extended Warranty', 11, 1)" -n1 -r3 -q
+# Various errors - more info inside the sql script
+ostress -E -S'localhost' -d'ExtendedEvents' -i"$pwd/WorkloadSimulation/ErrorWorkload.sql" -n1 -r2 -q
 
 # Missing Execute permissions for this procedure
-ostress -S'localhost' -d'ExtendedEvents'-U'BillyNoRights' -P'Str0ngPa$$w0rd!' -Q"EXEC dbo.LimitedAccess" -n10 -r5 -q
+ostress -S'localhost' -d'ExtendedEvents'-U'BillyNoRights' -P'Str0ngPa$$w0rd!' -Q"EXEC dbo.LimitedAccess" -n3 -r2 -q
 
 # Executing a procedure that tries to grant itself the permissions
-ostress -S'localhost' -d'ExtendedEvents' -U'LimitedPermissions' -P'Str0ngPa$$w0rd!' -Q"EXEC dbo.BotchedPermissions" -n10 -r5 -q
-
-# Various errors - more info inside the sql script
-ostress -E -S'localhost' -d'ExtendedEvents' -i"$pwd/WorkloadSimulation/ErrorWorkload.sql" -n4 -r20 -q
+ostress -S'localhost' -d'ExtendedEvents' -U'LimitedPermissions' -P'Str0ngPa$$w0rd!' -Q"EXEC dbo.BotchedPermissions" -n3 -r1 -q
 
 # Bad password - Error 18456
 sqlcmd -S'localhost' -U'BillyNoRights' -P'BadPassword' -H "AnotherPc"
 
+# Custom raise error in a different database
+ostress -E -S'localhost' -d'tempdb' -Q"RAISERROR('We''ve Been Trying To Reach You About Your Car''s Extended Warranty', 11, 1)" -n1 -r3 -q
+
 # Divide by zero for some executions
 for ($i=1; $i -le 10; $i++) 
 {sqlcmd -S'localhost' -U'LimitedPermissions' -P'Str0ngPa$$w0rd!' -Q "SELECT 10/($i%3)" -H "Calculator"}
+
+# Typo in the procedure name
+ostress -E -S'localhost' -d'ExtendedEvents' -Q"exec dbo.GetColour -- British spelling " -n2 -r1 -q
+
+# No error - generate something for the ModuleStart_Histogram
+ostress -E -S'localhost' -d'ExtendedEvents' -Q"exec dbo.GetColor -- American spelling" -n20 -r5 -q

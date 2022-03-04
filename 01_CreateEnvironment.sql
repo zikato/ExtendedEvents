@@ -11,6 +11,24 @@ CREATE DATABASE ExtendedEvents;
 GO
 USE ExtendedEvents;
 
+GO
+/* Enable the Query Store */
+ALTER DATABASE ExtendedEvents
+SET QUERY_STORE = ON
+    (
+      OPERATION_MODE = READ_WRITE,
+      CLEANUP_POLICY = ( STALE_QUERY_THRESHOLD_DAYS = 1 ),
+      DATA_FLUSH_INTERVAL_SECONDS = 900,
+      MAX_STORAGE_SIZE_MB = 50,
+      INTERVAL_LENGTH_MINUTES = 60,
+      SIZE_BASED_CLEANUP_MODE = AUTO,
+      MAX_PLANS_PER_QUERY = 10,
+      WAIT_STATS_CAPTURE_MODE = ON,
+	  QUERY_CAPTURE_MODE = ALL 
+    );
+GO
+
+
 /* Since Login is server scoped, we check for existence */
 IF NOT EXISTS (SELECT * FROM sys.server_principals WHERE name = 'LimitedPermissions')
 BEGIN
@@ -47,7 +65,7 @@ BEGIN
 	RETURN 'Done'
 END 
 
-GO 
+GO
 /* One user has an access, another one has not */
 CREATE OR ALTER PROCEDURE dbo.LimitedAccess
 AS
@@ -103,26 +121,31 @@ CREATE TABLE dbo.UniqueConstraint
 GO
 
 /* Nested branching error - procedure calls function but only one branch returns error */
-CREATE OR ALTER PROCEDURE dbo.SharedLogic (@trueFalse bit)
+CREATE OR ALTER PROCEDURE dbo.ChildProcedure (@trueFalse bit)
 AS
 IF (@trueFalse = 1) /* golden path - no error */
 	SELECT 1 as Pass 
 ELSE
-	SELECT 1/0 as Error /* Generate a divide by 0 error */
+	RAISERROR('A 0 has been passed as a parameter', 15, 2); 
 GO
 
-CREATE OR ALTER PROCEDURE dbo.Caller1(@passThrough bit) /* Simulate nesting 1 */
+CREATE OR ALTER PROCEDURE dbo.DaddyProcedure(@passThrough bit) /* Simulate nesting 1 */
 AS
-EXEC dbo.SharedLogic @trueFalse = @passThrough
+EXEC dbo.ChildProcedure @trueFalse = @passThrough
 GO
 
-CREATE OR ALTER PROCEDURE dbo.Caller2 (@passThrough bit) /* Simulate nesting  2*/
+CREATE OR ALTER PROCEDURE dbo.MommyProcedure (@passThrough bit) /* Simulate nesting  2*/
 AS
-EXEC dbo.SharedLogic @trueFalse = @passThrough
+EXEC dbo.ChildProcedure @trueFalse = @passThrough
 GO
 
 /* Error inside the trigger */
+CREATE OR ALTER TRIGGER TRG_UniqueConstraint_Error
+ON dbo.UniqueConstraint
+AFTER INSERT
+AS
+BEGIN 
+	IF EXISTS (SELECT * FROM Inserted AS i WHERE i.CountryId = i.CategoryId)
+		RAISERROR('CountryId cannot match the CategoryID', 14, 1)
 
-/* Custom user error  - extended warranty */
-
-/* Login error - wrong password */
+END

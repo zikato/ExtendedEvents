@@ -1,4 +1,4 @@
-DECLARE @stackOrFrame xml = '' /* input the tsql_stack xml in format: <frames>…</frames> */
+DECLARE @stackOrFrame xml = '' /* input the tsql_stack xml in format: <frames>â€¦</frames> */
 
 /* 
 The xml format is for a clickable text. 
