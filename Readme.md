@@ -23,6 +23,11 @@ Add the *ostress.exe* to the Path so it can be run from anywhere.
 
 SQLCMD will be installed along with the SQL Server.
 
+### SQL Server
+
+- Enable TCP/IP in the SQL Server Network configuration
+- Enable SQL Authentication https://docs.microsoft.com/en-us/sql/database-engine/configure-windows/change-server-authentication-mode?view=sql-server-ver15#change-authentication-mode-with-ssms
+
 ## Demo
 
 1. Create the Extended Events (XE) session Error_reported on the server by running the Error_reported.sql script in *XE_Sessions* folder.
