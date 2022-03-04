@@ -4,7 +4,24 @@
 
 ### Install Ostress
 
-https://docs.microsoft.com/en-us/troubleshoot/sql/tools/replay-markup-language-utility
+https://docs.microsoft.com/en-us/troubleshoot/sql/tools/replay-markup-language-utility#obtain-the-rml-utilities-for-sql-server
+
+Default installation location is 
+`C:\Program Files\Microsoft Corporation\RMLUtils`
+
+Add the *ostress.exe* to the Path so it can be run from anywhere.
+
+1. Windows menu - write "Edit the system environment variables"
+1. Click on "Environment Variables..." button at the bottom
+1. Higlight the *PATH* variable and click *Edit*
+1. Add a new row with the root path to the Ostress folder (without the Ostress.exe)
+1. Click Ok everywhere to save
+1. Reopen any terminals
+
+
+### Install SQLCMD
+
+SQLCMD will be installed along with the SQL Server.
 
 ## Demo
 
