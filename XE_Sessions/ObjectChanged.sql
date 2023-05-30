@@ -1,3 +1,6 @@
+IF EXISTS (SELECT 1 FROM sys.server_event_sessions ses WHERE ses.name = 'ObjectChanged')
+	DROP EVENT SESSION [ObjectChanged] ON SERVER;
+GO
 CREATE EVENT SESSION [ObjectChanged] ON SERVER 
 ADD EVENT sqlserver.module_end
 (
@@ -14,16 +17,48 @@ ADD EVENT sqlserver.module_end
 	)
     WHERE 
 	(
-		[sqlserver].[equal_i_sql_ansi_string]([object_type],'P ') 
+		object_id < 0
 		AND
 		(
-			[sqlserver].[like_i_sql_unicode_string]([object_name], N'sp_add_%')
-			OR [sqlserver].[like_i_sql_unicode_string]([object_name], N'sp_update_%')
-			OR [sqlserver].[like_i_sql_unicode_string]([object_name], N'sp_delete_%')
-			OR [sqlserver].[equal_i_sql_unicode_string]([object_name], N'sp_attach_schedule')
-			OR [sqlserver].[equal_i_sql_unicode_string]([object_name], N'sp_detach_schedule')
-			OR [sqlserver].[equal_i_sql_unicode_string]([object_name], N'sp_rename')
-			OR [sqlserver].[equal_i_sql_unicode_string]([object_name], N'sp_serveroption')
+			[sqlserver].[equal_i_sql_ansi_string]([object_type],'P ')
+			AND
+			(
+				   [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_add%'		)
+				OR [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_%enable%'	)
+				OR [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_%create%'	)
+				OR [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_%start%'	)
+				OR [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_%grant%'	)
+				OR [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_%update%'	)
+				OR [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_%alter%'	)
+				OR [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_%set%'		)
+				OR [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_%change%'	)
+				OR [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_%delete%'	)
+				OR [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_%drop%'		)
+				OR [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_%remove%'	)
+				OR [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_%disable%'	)
+				OR [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_%clean%'	)
+				OR [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_%stop%'		)
+				OR [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_%revoke%'	)
+				OR [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_%attach%'	)
+				OR [sqlserver].[like_i_sql_unicode_string]([object_name],  N'sp_%detach%'	)
+				OR [sqlserver].[equal_i_sql_unicode_string]([object_name], N'sp_rename'		)
+				OR [sqlserver].[equal_i_sql_unicode_string]([object_name], N'sp_autostats'	)
+				OR [sqlserver].[equal_i_sql_unicode_string]([object_name], N'sp_subscribe'	)
+				OR [sqlserver].[equal_i_sql_unicode_string]([object_name], N'sp_unsubscribe'	)
+				OR [sqlserver].[equal_i_sql_unicode_string]([object_name], N'sp_configure'	) /* Server options */
+				OR [sqlserver].[equal_i_sql_unicode_string]([object_name], N'sp_serveroption'	) /* Linked Server */
+				OR [sqlserver].[equal_i_sql_unicode_string]([object_name], N'sp_bindrule'	)
+			)
+		)
+		AND
+		(
+			[sqlserver].[equal_i_sql_ansi_string]([object_type],'X ')
+			AND
+			(
+				   [sqlserver].[equal_i_sql_unicode_string]([object_name], N'sp_add_trusted_assembly'		)
+				OR [sqlserver].[equal_i_sql_unicode_string]([object_name], N'sp_drop_trusted_assembly'		)
+				OR [sqlserver].[equal_i_sql_unicode_string]([object_name], N'sp_delete_backup_file_snapshot'	)
+			)
 		)
 	)
 ),
@@ -129,7 +164,10 @@ ADD EVENT sqlserver.object_deleted
 ADD TARGET package0.event_file
 (
 	SET filename=N'ObjectChanged',
-	max_file_size=(10),
+	max_file_size=(10), /* Megabytes */
 	max_rollover_files=(20)
 )
+WITH (STARTUP_STATE=ON)
 GO
+
+ALTER EVENT SESSION [ObjectChanged] ON SERVER STATE = START
