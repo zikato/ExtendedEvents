@@ -50,7 +50,7 @@ ADD EVENT sqlserver.module_end
 				OR [sqlserver].[equal_i_sql_unicode_string]([object_name], N'sp_bindrule'	)
 			)
 		)
-		AND
+		OR
 		(
 			[sqlserver].[equal_i_sql_ansi_string]([object_type],'X ')
 			AND
